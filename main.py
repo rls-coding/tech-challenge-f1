@@ -61,28 +61,33 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
 
 @app.get("/")
 async def home():
-    return JSONResponse(content="Desafio Tech FIAP - 2MLET - Grupo 20")
+    return JSONResponse(content="Desafio Tech FIAP - F1 - 2MLET")
 
+# baixar dados de produção
 @app.get("/vitivinicultura/producao", description="Produção de vinhos, sucos e derivados do Rio Grande do Sul")
 async def obter_producao(current_user: str = Depends(obter_usuario_atual)):
     vitivinicultura = vb.VitiBrasil()
     return vitivinicultura.baixar_arquivo_producao()
 
+# Baixar dados de processamento
 @app.get("/vitivinicultura/processamento/{tipo_uva}", description="Quantidade de uvas processadas no Rio Grande do Sul")
 async def obter_processamento(tipo_uva: vb.TipoUva = Path(..., description="Tipo de uva"), current_user: str = Depends(obter_usuario_atual)):
     vitivinicultura = vb.VitiBrasil()
     return vitivinicultura.baixar_arquivo_processamento(tipo_uva)
 
+# Baixar dados de comercio
 @app.get("/vitivinicultura/comercio", description="Comercialização de vinhos e derivados no Rio Grande do Sul")
 async def obter_comercio(current_user: str = Depends(obter_usuario_atual)):
     vitivinicultura = vb.VitiBrasil()
     return vitivinicultura.baixar_arquivo_comercio()
 
+# Baixar dados de importação
 @app.get("/vitivinicultura/importacao/{item_importacao}", description="Comercialização de vinhos e derivados no Rio Grande do Sul")
 async def obter_importacao(item_importacao: vb.ItemImportacao = Path(..., description="Item de importação"), current_user: str = Depends(obter_usuario_atual)):
     vitivinicultura = vb.VitiBrasil()
     return vitivinicultura.baixar_arquivo_importacao(item_importacao)
 
+# Baixar dados de exportação
 @app.get("/vitivinicultura/exportacao/{item_exportacao}", description="Exportação de derivados de uva")
 async def obter_exportacao(item_exportacao: vb.ItemExportacao = Path(..., description="Item de exportação"), current_user: str = Depends(obter_usuario_atual)):
     vitivinicultura = vb.VitiBrasil()

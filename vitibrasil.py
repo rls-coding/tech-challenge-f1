@@ -25,6 +25,7 @@ class ItemExportacao(str, Enum):
     suco_de_uva = "suco-de-uva"
 
 
+# lista de arquivos disponíveis para download no site http://vitibrasil.cnpuv.embrapa.br/
 url_download = {
     "producao": "http://vitibrasil.cnpuv.embrapa.br/download/Producao.csv",
     TipoUva.viniferas: "http://vitibrasil.cnpuv.embrapa.br/download/ProcessaViniferas.csv",
@@ -66,23 +67,29 @@ def baixar_csv_e_converter_para_json(url, delimitador = ";"):
     return converter_csv_para_json(conteudo_csv, delimitador = delimitador)
      
 
+
 class VitiBrasil(object):
     
     def baixar_arquivo_producao(self):
         return baixar_csv_e_converter_para_json(url_download["producao"])
     
+
     def baixar_arquivo_processamento(self, tipo_uva: TipoUva):
         if tipo_uva == TipoUva.viniferas:
             return baixar_csv_e_converter_para_json(url_download[tipo_uva])
         else:
+            # o delimitador tabulação (tab) neste caso
             return baixar_csv_e_converter_para_json(url_download[tipo_uva], delimitador="\t")
     
+
     def baixar_arquivo_comercio(self):
         return baixar_csv_e_converter_para_json(url_download["comercio"])
     
+
     def baixar_arquivo_importacao(self, item: ItemImportacao):
         return baixar_csv_e_converter_para_json(url_download[item])
     
+
     def baixar_arquivo_exportacao(self, item: ItemExportacao):
         return baixar_csv_e_converter_para_json(url_download[item])
 
